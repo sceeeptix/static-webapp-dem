@@ -1,0 +1,11 @@
+{
+  "name": "azure-functions-api",
+  "version": "1.0.0",
+  "description": "Azure Functions Backend für Static Web App",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests specified\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

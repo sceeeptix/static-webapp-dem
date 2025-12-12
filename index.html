@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Static Web App Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-12">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-indigo-900 mb-4">
+                Azure Static Web App Demo
+            </h1>
+            <p class="text-xl text-gray-700">
+                Static Website mit Azure Functions Backend
+            </p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="max-w-4xl mx-auto">
+            <!-- Info Card -->
+            <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-4">
+                    Willkommen!
+                </h2>
+                <p class="text-gray-600 mb-4">
+                    Dies ist eine Demo einer Azure Static Web App. Diese Seite wird als statische Website gehostet 
+                    und kann mit Azure Functions als Backend verbunden werden.
+                </p>
+                <div class="grid md:grid-cols-2 gap-4 mt-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-blue-900 mb-2">Features</h3>
+                        <ul class="text-sm text-gray-700 space-y-1">
+                            <li>• Statisches Hosting</li>
+                            <li>• Globales CDN</li>
+                            <li>• Automatisches HTTPS</li>
+                            <li>• CI/CD Integration</li>
+                        </ul>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-indigo-900 mb-2">Backend</h3>
+                        <ul class="text-sm text-gray-700 space-y-1">
+                            <li>• Azure Functions</li>
+                            <li>• Serverless API</li>
+                            <li>• Automatische Skalierung</li>
+                            <li>• Pay-per-use</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Test Card -->
+            <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                    API Test
+                </h2>
+                <p class="text-gray-600 mb-4">
+                    Teste die Verbindung zu deinem Azure Functions Backend:
+                </p>
+                
+                <div class="flex gap-4 mb-4">
+                    <button 
+                        onclick="testAPI()"
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md">
+                        API Testen
+                    </button>
+                    <button 
+                        onclick="clearResult()"
+                        class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md">
+                        Löschen
+                    </button>
+                </div>
+
+                <div id="apiResult" class="hidden mt-4 p-4 rounded-lg">
+                    <h3 class="font-semibold mb-2">Antwort:</h3>
+                    <pre id="apiResponse" class="bg-gray-50 p-3 rounded text-sm overflow-x-auto"></pre>
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                    Nächste Schritte
+                </h2>
+                <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                    <li>Erstelle eine Azure Static Web App in Azure Portal</li>
+                    <li>Verbinde dein GitLab Repository</li>
+                    <li>Erstelle Azure Functions im <code class="bg-gray-100 px-2 py-1 rounded">/api</code> Ordner</li>
+                    <li>Deploye automatisch über CI/CD</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 text-gray-600">
+            <p>Renato | Louis | Ensar</p>
+            <p>m346</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

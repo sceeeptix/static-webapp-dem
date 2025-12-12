@@ -1,93 +1,162 @@
-# azure-staticwebapp-demo
+# Azure Static Web App Demo
 
+Eine Demo-Anwendung für Azure Static Web Apps mit Azure Functions Backend.
 
+## Übersicht
 
-## Getting started
+Dieses Projekt demonstriert die Verwendung von Azure Static Web Apps mit einem serverless Backend über Azure Functions. Die Anwendung besteht aus:
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- **Frontend**: Statische HTML/CSS/JavaScript Website mit TailwindCSS
+- **Backend**: Azure Functions (Node.js) für API-Endpunkte
+- **Hosting**: Azure Static Web Apps mit globalem CDN
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Features
 
-## Add your files
+- Moderne, responsive UI mit TailwindCSS
+- Serverless API mit Azure Functions
+- Automatisches HTTPS
+- Globales CDN für schnelle Ladezeiten
+- CI/CD Integration mit GitLab
+- Kostenlose Hosting-Option verfügbar
 
-* [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## Projektstruktur
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/LouisKe/azure-staticwebapp-demo.git
-git branch -M main
-git push -uf origin main
+azure-staticwebapp-demo/
+├── index.html                    # Hauptseite der Web App
+├── script.js                     # Frontend JavaScript
+├── staticwebapp.config.json      # Azure Static Web App Konfiguration
+├── api/                          # Azure Functions Backend
+│   ├── message/                  # Beispiel-Function
+│   │   ├── function.json        # Function Konfiguration
+│   │   └── index.js             # Function Code
+│   ├── host.json                # Functions Host Konfiguration
+│   └── package.json             # Node.js Dependencies
+└── README.md
 ```
 
-## Integrate with your tools
+## Lokale Entwicklung
 
-* [Set up project integrations](https://gitlab.com/LouisKe/azure-staticwebapp-demo/-/settings/integrations)
+### Voraussetzungen
 
-## Collaborate with your team
+- [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local)
+- [Node.js](https://nodejs.org/) (LTS Version)
+- Ein Webbrowser
 
-* [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+### Frontend lokal testen
 
-## Test and Deploy
+Öffne einfach die `index.html` Datei in deinem Browser oder verwende einen lokalen Webserver:
 
-Use the built-in continuous integration in GitLab.
+```bash
+# Mit Python
+python -m http.server 8000
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+# Mit Node.js (http-server)
+npx http-server
+```
 
-***
+### Azure Functions lokal testen
 
-# Editing this README
+```bash
+cd api
+npm install
+func start
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Die API ist dann unter `http://localhost:7071/api/message` erreichbar.
 
-## Suggestions for a good README
+## Deployment zu Azure
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### Option 1: Azure Portal
 
-## Name
-Choose a self-explaining name for your project.
+1. Gehe zum [Azure Portal](https://portal.azure.com)
+2. Erstelle eine neue "Static Web App" Ressource
+3. Verbinde dein GitLab Repository
+4. Konfiguriere die Build-Einstellungen:
+   - **App location**: `/`
+   - **Api location**: `api`
+   - **Output location**: `` (leer lassen)
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Option 2: Azure CLI
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+```bash
+# Azure CLI installieren und anmelden
+az login
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+# Static Web App erstellen
+az staticwebapp create \
+  --name azure-staticwebapp-demo \
+  --resource-group <deine-resource-group> \
+  --source https://gitlab.com/LouisKe/azure-staticwebapp-demo.git \
+  --location "West Europe" \
+  --branch main \
+  --app-location "/" \
+  --api-location "api" \
+  --login-with-gitlab
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### Automatisches Deployment
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Nach der Verbindung mit GitLab wird automatisch ein CI/CD Workflow erstellt. Jeder Push zum `main` Branch löst ein automatisches Deployment aus.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## API Endpunkte
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+### GET/POST `/api/message`
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Gibt eine Begrüßungsnachricht zurück.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+**Query Parameter:**
+- `name` (optional): Name für die Begrüßung
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+**Beispiel Request:**
+```bash
+curl https://deine-app.azurestaticapps.net/api/message?name=Azure
+```
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+**Beispiel Response:**
+```json
+{
+  "message": "Hallo Azure! Diese Nachricht kommt von Azure Functions.",
+  "timestamp": "2024-12-12T07:51:00.000Z",
+  "status": "success",
+  "info": {
+    "backend": "Azure Functions",
+    "language": "JavaScript (Node.js)",
+    "trigger": "HTTP"
+  }
+}
+```
 
-## License
-For open source projects, say how it is licensed.
+## Konfiguration
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### staticwebapp.config.json
+
+Die Datei `staticwebapp.config.json` enthält wichtige Konfigurationen:
+
+- **Routes**: Routing-Regeln für die App
+- **Navigation Fallback**: SPA-Routing Unterstützung
+- **Global Headers**: Sicherheits-Header
+- **MIME Types**: Content-Type Definitionen
+
+## Sicherheit
+
+Die App verwendet folgende Sicherheits-Header:
+
+- Content Security Policy (CSP)
+- X-Content-Type-Options
+- X-Frame-Options
+- X-XSS-Protection
+
+## Weitere Ressourcen
+
+- [Azure Static Web Apps Dokumentation](https://docs.microsoft.com/azure/static-web-apps/)
+- [Azure Functions Dokumentation](https://docs.microsoft.com/azure/azure-functions/)
+- [TailwindCSS Dokumentation](https://tailwindcss.com/docs)
+
+## Autor
+
+Erstellt für M346 - Cloud Computing, Kantonsschule Frauenfeld
+
+## Lizenz
+
+Dieses Projekt ist für Bildungszwecke erstellt.
