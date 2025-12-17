@@ -19,6 +19,6 @@ module.exports = async function (context, req) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: responseMessage
+        body: JSON.stringify(responseMessage)
     };
 };
